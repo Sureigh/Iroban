@@ -1,0 +1,7 @@
+config.toml
+package-lock.json
+node_modules/
+.idea/
+*.iml
+**/__pycache__/
+venv/

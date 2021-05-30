@@ -1,0 +1,15 @@
+{
+    "include": ["uno"],
+    "exclude": [
+        "**/node_modules",
+        "**/__pycache__",
+        ".git",
+        ".idea",
+        "venv"
+    ],
+    "stubPath": "",
+    "reportWildcardImportFromLibrary": false,
+    "pythonVersion": "3.9.5",
+    "venvPath": "venv",
+    "pythonPlatform": "Windows"
+}
