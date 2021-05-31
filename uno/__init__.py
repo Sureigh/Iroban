@@ -1,3 +1,4 @@
+import collections
 from typing import TypedDict, Coroutine
 
 import toml
@@ -22,6 +23,10 @@ class UNO(commands.Bot):
         super().__init__(command_prefix=self.config['prefix'], owner_ids=self.config['owner_ids'])
         self.load_extension("uno.game")
         self.load_extension("jishaku")
+        self.stats = collections.Counter()
+
+    async def on_socket_response(self, msg):
+        self.stats[msg.get('t')] += 1
 
     async def on_ready(self) -> None:
         print("HI")
