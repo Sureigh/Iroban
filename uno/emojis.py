@@ -7,25 +7,25 @@ from discord import PartialEmoji
 # Perhaps it is possible, using a guild id/Context object, to get emoji IDs through the bot?
 # It would look cleaner. And probably be better for future compatibility...
 
-class ColorEmojis:
+class ColorEmojis(dict):
     """A dataclass used to generate and store a list of PartialEmojis."""
 
     # To consider: auto-handling emoji adding + cap checking
     # (See elif block below to comprehend basic idea)
 
     def __init__(self, color, ids, specials: dict):
-        self.emojis = {}
+        super().__init__()
 
         if color.lower() in ['blue', 'green', 'red', 'yellow']:
             # Numbered card integration
             for i, _id in zip(range(len(ids)), ids):
                 name = f'{color}_{i}'
-                self.emojis[name] = PartialEmoji(name=name, id=_id, animated=False)
+                self[name] = PartialEmoji(name=name, id=_id, animated=False)
 
             # Special card integration
             for card, _id in specials.items():
                 name = f'{color}_{card}'
-                self.emojis[name] = PartialEmoji(name=name, id=_id, animated=False)
+                self[name] = PartialEmoji(name=name, id=_id, animated=False)
 
         else:  # Currently unreachable until elif is removed
             raise TypeError(f'{color} is not a valid color name nor hex code.')
@@ -43,9 +43,6 @@ class ColorEmojis:
             - Datastream of the svg is registered as an emoji in a server. 
             - If over normal emoji cap, will convert to gif and add as animated gif.
         """
-
-    def __iter__(self):
-        return self.emojis.items()
 
 
 # TODO: Make non-colored emojis/colored specials animated.
@@ -90,16 +87,16 @@ yellow_emojis: dict = {
         [848717597331030016, 848717597390274581, 848717597993598976, 848717598270685205, 848717598745296966,
          848717599373656074, 848717599285575701, 848717599503155241],
         yellow_spec
-    ).emojis,
+    ),
     **{'yellow_8': PartialEmoji(name='yellow_8', id=848735623627931648, animated=True),
        'yellow_9': PartialEmoji(name='yellow_9', id=848735489859125269, animated=True)}
 }
 
 # Damn my IDE really do be hatin this typehint
-all_emojis: Dict[Literal["yellow", "red", "blue", "green", "other"], List[PartialEmoji]] = {
-    "yellow": yellow_emojis,
-    "red": red_emojis,
-    "blue": blue_emojis,
-    "green": green_emojis,
-    "other": [plus_4, colour_change]
+all_emojis: Dict[Literal['yellow', 'red', 'blue', 'green', 'other'], List[PartialEmoji]] = {
+    'yellow': yellow_emojis.values(),
+    'red': red_emojis.values(),
+    'blue': blue_emojis.values(),
+    'green': green_emojis.values(),
+    'other': [plus_4, colour_change]
 }
