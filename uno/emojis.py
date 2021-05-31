@@ -93,6 +93,6 @@ yellow_emojis: dict = {
 }
 
 all_emojis = (
-        list({**red_emojis, **blue_emojis, **green_emojis, **yellow_emojis}.values())
+        [*red_emojis.values(), *blue_emojis.values(), *green_emojis.values(), *yellow_emojis.values()]
         + [colour_change, plus_4]
 )
