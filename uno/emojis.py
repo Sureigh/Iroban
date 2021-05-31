@@ -1,3 +1,5 @@
+from typing import Literal
+
 from discord import PartialEmoji
 
 
@@ -52,6 +54,7 @@ class ColorEmojis:
 # TODO: Make these animated
 colour_change = PartialEmoji(name='colour_change', id=848717422520434699, animated=False)
 plus_4 = PartialEmoji(name='4_', id=848717422705901570, animated=False)
+
 # TODO: These too \/
 blue_spec = {'skip': 848717454979891201, 'reverse': 848717454629011456, 'p2': 848717450337714226}
 green_spec = {'skip': 848717535524290580, 'reverse': 848717534156292118, 'p2': 848717529928826880}
@@ -91,8 +94,12 @@ yellow_emojis: dict = {
     **{'yellow_8': PartialEmoji(name='yellow_8', id=848735623627931648, animated=True),
        'yellow_9': PartialEmoji(name='yellow_9', id=848735489859125269, animated=True)}
 }
+  
+all_emojis: dict[Literal["yellow", "red", "blue", "green", "other"], list[PartialEmoji]] = {
+    "yellow": yellow_emojis,
+    "red": red_emojis,
+    "blue": blue_emojis,
+    "green": green_emojis,
+    "other": [plus_4, colour_change]
+}
 
-all_emojis = (
-        [*red_emojis.values(), *blue_emojis.values(), *green_emojis.values(), *yellow_emojis.values()]
-        + [colour_change, plus_4]
-)
