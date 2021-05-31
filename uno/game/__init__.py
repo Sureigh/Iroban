@@ -1,7 +1,8 @@
+import dataclasses
 import random
 
 import unicodedata
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, Optional
 
 import discord
 from discord.ext import commands
@@ -17,19 +18,38 @@ else:
     bot_t = commands.Bot
 
 
+Colour = Literal["red", "blue", "green", "yellow", "other"]
+# zero,one,two,three,four,five,six,seven,eight,nine,+2,reverse,skip
+Number = Literal[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+# +4 = 0, colour change = 1
+
+
+@dataclasses.dataclass
 class Card:
-    def __init__(self, number: int, colour: Literal["\U0001f7e5", "\U0001f7e8", "\U0001f7e9", "\U0001f7e6"]):
-        self.number = number
-        self.colour = colour
+    colour: Colour
+    number: Number
 
-    def __str__(self):
-        if self.number < 10:
-            return f'{self.colour}{self.number}\ufe0f\u20e3'
+    def to_emoji(self) -> discord.PartialEmoji:
+        return all_emojis[self.colour][self.number]
 
 
-class UNOView(View):
+class Player:
+    def __init__(self, member: discord.Member):
+        self.member = member
+        self._hand: list[Card] = []
+
+    @property
+    def hand(self) -> list[Card]:
+        return sorted(self._hand, key=lambda c: (c.colour, c.number))
+
+
+class UNOGame(View):
     def __init__(self):
         super().__init__(timeout=None)
+        self.players: list[Player] = []
+        self.top_deck: Optional[Card] = None
+        self.reversed = False
+        self._current_player: Literal[0, 1, 2, 3] = 0
 
 
 class Game(commands.Cog):
@@ -47,7 +67,7 @@ class Game(commands.Cog):
             for i in range(24):
                 view.add_item(Button(style=discord.ButtonStyle.grey, emoji=random.choice(all_emojis)))
             view.add_item(Button(style=discord.ButtonStyle.grey, emoji="\u27a1\ufe0f"))
-            response: discord.InteractionResponse = interaction.response  # type: ignore
+            response: discord.InteractionResponse = interaction.response
             await response.send_message(view=view, ephemeral=True, content="Your cards:")
 
         button.callback = callback

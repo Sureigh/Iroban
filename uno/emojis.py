@@ -1,3 +1,5 @@
+from typing import Literal
+
 from discord import PartialEmoji
 
 colour_change = PartialEmoji(name='colour_change', id=848717422520434699, animated=False)
@@ -55,12 +57,18 @@ yellow_skip = PartialEmoji(name='yellow_skip', id=848735526806093844, animated=T
 yellow_8 = PartialEmoji(name='yellow_8', id=848735623627931648, animated=True)
 yellow_reverse = PartialEmoji(name='yellow_reverse', id=848735701553905684, animated=True)
 
-yellow_emojis = [yellow_p2, yellow_0, yellow_1, yellow_2, yellow_3, yellow_4, yellow_6, yellow_5, yellow_7, yellow_8,
-                 yellow_9, yellow_skip, yellow_reverse]
-red_emojis = [red_0, red_p2, red_1, red_2, red_4, red_3, red_5, red_7, red_6, red_8, red_reverse, red_9, red_skip]
-green_emojis = [green_0, green_p2, green_1, green_3, green_2, green_4, green_5, green_6, green_7, green_8, green_9,
+yellow_emojis = [yellow_0, yellow_1, yellow_2, yellow_3, yellow_4, yellow_5, yellow_6, yellow_7, yellow_8, yellow_9,
+                 yellow_p2, yellow_reverse, yellow_skip]
+red_emojis = [red_0, red_1, red_2, red_3, red_4, red_5, red_6, red_7, red_8, red_9, red_p2, red_reverse, red_skip]
+green_emojis = [green_0, green_1, green_2, green_3, green_4, green_5, green_6, green_7, green_8, green_9, green_p2,
                 green_reverse, green_skip]
-blue_emojis = [blue_p2, blue_0, blue_1, blue_2, blue_3, blue_4, blue_7, blue_9, blue_8, blue_reverse, blue_5, blue_6,
+blue_emojis = [blue_0, blue_1, blue_2, blue_3, blue_4, blue_5, blue_6, blue_7, blue_8, blue_9, blue_p2, blue_reverse,
                blue_skip]
 
-all_emojis = red_emojis + blue_emojis + yellow_emojis + green_emojis + [colour_change, plus_4]
+all_emojis: dict[Literal["yellow", "red", "blue", "green", "other"], list[PartialEmoji]] = {
+    "yellow": yellow_emojis,
+    "red": red_emojis,
+    "blue": blue_emojis,
+    "green": green_emojis,
+    "other": [plus_4, colour_change]
+}
