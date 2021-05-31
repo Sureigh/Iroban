@@ -46,7 +46,8 @@ class UNO(commands.Bot):
         self.stats = collections.Counter()
 
         if aioredis:
-            self.redis = await aioredis.create_redis_pool(self.config.get("redis"))
+            self.redis = self.loop.run_until_complete(aioredis.create_redis_pool(self.config.get("redis")))
+            pass
         else:
             self.redis = None
 
