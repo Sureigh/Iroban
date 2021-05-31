@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Dict, List
 
 from discord import PartialEmoji
 
@@ -28,7 +28,7 @@ class ColorEmojis:
                 self.emojis[name] = PartialEmoji(name=name, id=_id, animated=False)
 
         else:  # Currently unreachable until elif is removed
-            raise SyntaxError(f'{color} is not a valid color name nor hex code.')
+            raise TypeError(f'{color} is not a valid color name nor hex code.')
 
         """
         elif int(color.lstrip('#'), base=16):
@@ -94,12 +94,12 @@ yellow_emojis: dict = {
     **{'yellow_8': PartialEmoji(name='yellow_8', id=848735623627931648, animated=True),
        'yellow_9': PartialEmoji(name='yellow_9', id=848735489859125269, animated=True)}
 }
-  
-all_emojis: dict[Literal["yellow", "red", "blue", "green", "other"], list[PartialEmoji]] = {
+
+# Damn my IDE really do be hatin this typehint
+all_emojis: Dict[Literal["yellow", "red", "blue", "green", "other"], List[PartialEmoji]] = {
     "yellow": yellow_emojis,
     "red": red_emojis,
     "blue": blue_emojis,
     "green": green_emojis,
     "other": [plus_4, colour_change]
 }
-
